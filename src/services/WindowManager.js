@@ -3,7 +3,7 @@
  * Handles all window-related operations and state management
  */
 
-const { BrowserWindow, screen } = require('electron');
+const { BrowserWindow, screen, app } = require('electron');
 const path = require('path');
 const APP_CONFIG = require('../config/appConfig');
 const logger = require('../utils/logger');
@@ -16,6 +16,7 @@ class WindowManager {
     this.manualMovementTimeout = null;
     this.lastKnownPosition = { x: 0, y: 50 }; // Will be updated when window is created
     this.shortcutManager = shortcutManager;
+    this.previousFocusedWindow = null;
   }
 
   /**
@@ -45,6 +46,9 @@ class WindowManager {
         skipTaskbar: APP_CONFIG.WINDOW.SKIP_TASKBAR,
         hasShadow: APP_CONFIG.WINDOW.HAS_SHADOW,
         vibrancy: APP_CONFIG.WINDOW.VIBRANCY,
+        focusable: false,
+        acceptFirstMouse: false,
+        show: false, // Don't show immediately
         webPreferences: {
           nodeIntegration: true,
           contextIsolation: false,
@@ -74,6 +78,21 @@ class WindowManager {
    */
   setupWindowEvents() {
     if (!this.mainWindow) return;
+
+    // Handle close event - on macOS, hide instead of close
+    this.mainWindow.on('close', (event) => {
+      if (process.platform === 'darwin') {
+        // Prevent the default close behavior
+        event.preventDefault();
+        // Hide the window instead
+        this.hideWindow();
+        logger.info('Window hidden (Command+W pressed)');
+      } else {
+        // On other platforms, allow normal close behavior
+        this.mainWindow = null;
+        logger.info('Main window closed');
+      }
+    });
 
     this.mainWindow.on('closed', () => {
       this.mainWindow = null;
@@ -162,6 +181,7 @@ class WindowManager {
     this.mainWindow.setAlwaysOnTop(APP_CONFIG.INCOGNITO.ALWAYS_ON_TOP);
     this.mainWindow.setSkipTaskbar(APP_CONFIG.INCOGNITO.SKIP_TASKBAR);
     this.mainWindow.setOpacity(APP_CONFIG.INCOGNITO.OPACITY);
+    this.mainWindow.setFocusable(false);
   }
 
   /**
@@ -175,6 +195,7 @@ class WindowManager {
     this.mainWindow.setSkipTaskbar(false);
     this.mainWindow.setOpacity(1.0);
     this.mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+    this.mainWindow.setFocusable(false);
   }
 
   /**
@@ -189,7 +210,7 @@ class WindowManager {
       if (isVisible) {
         this.hideWindow();
       } else {
-        this.showWindow();
+        this.showWindowWithoutFocus();
       }
 
       // Notify renderer process
@@ -239,8 +260,8 @@ class WindowManager {
 
     this.mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     this.mainWindow.show();
-    this.mainWindow.focus();
-    this.mainWindow.moveTop();
+    // Don't focus or move to top - keep it invisible to user interaction
+    this.mainWindow.setFocusable(false);
 
     // Re-enable all shortcuts when showing
     if (this.shortcutManager) {
@@ -282,7 +303,8 @@ class WindowManager {
       this.mainWindow.setAlwaysOnTop(true, 'screen-saver');
       this.mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
       this.mainWindow.show();
-      this.mainWindow.moveTop();
+      this.mainWindow.setFocusable(false);
+      // Don't move to top or focus - keep it invisible to user interaction
 
       this.lastKnownPosition = newPosition;
       logger.windowMove(direction, `${newPosition.x} ${newPosition.y}`);
@@ -407,6 +429,76 @@ class WindowManager {
    */
   isWindowValid() {
     return this.mainWindow && !this.mainWindow.isDestroyed();
+  }
+
+  /**
+   * Store the currently focused window
+   */
+  storeFocusedWindow() {
+    try {
+      // Get the currently focused window
+      const focusedWindow = BrowserWindow.getFocusedWindow();
+      if (focusedWindow && focusedWindow !== this.mainWindow) {
+        this.previousFocusedWindow = focusedWindow;
+        logger.debug('Stored focused window for restoration');
+      }
+    } catch (error) {
+      logger.error('Error storing focused window:', error);
+    }
+  }
+
+  /**
+   * Restore focus to the previously focused window
+   */
+  restoreFocusedWindow() {
+    try {
+      if (this.previousFocusedWindow && !this.previousFocusedWindow.isDestroyed()) {
+        // Use setTimeout to ensure the window operations complete first
+        setTimeout(() => {
+          this.previousFocusedWindow.focus();
+          logger.debug('Restored focus to previous window');
+        }, 10);
+      }
+    } catch (error) {
+      logger.error('Error restoring focused window:', error);
+    }
+  }
+
+  /**
+   * Show window without stealing focus
+   */
+  showWindowWithoutFocus() {
+    if (!this.mainWindow) return;
+
+    // Store current focus before showing
+
+    // Apply settings based on current incognito state
+    if (this.isIncognitoMode) {
+      this.enableIncognitoMode();
+    } else {
+      this.mainWindow.setContentProtection(false);
+      this.mainWindow.setAlwaysOnTop(true, 'screen-saver');
+      this.mainWindow.setSkipTaskbar(false);
+      this.mainWindow.setOpacity(1.0);
+    }
+
+    // Set window properties to prevent focus stealing
+    this.mainWindow.setFocusable(false);
+    this.mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+    
+    // Show window without activating it
+    this.mainWindow.showInactive();
+    
+    // Force blur immediately
+    this.mainWindow.blur();
+    
+    // Immediately restore focus to previous window
+    this.restoreFocusedWindow();
+
+    // Re-enable all shortcuts when showing
+    if (this.shortcutManager) {
+      this.shortcutManager.enableAllShortcuts();
+    }
   }
 }
 
