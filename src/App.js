@@ -80,6 +80,9 @@ class SmartCueApp {
       // Start desktop following
       this.desktopFollower.startDetection();
       
+      // Ensure IPC handlers are properly registered
+      this.ipcManager.setupIPCHandlers();
+      
       this.isReady = true;
       logger.success('SmartCue initialized successfully');
 

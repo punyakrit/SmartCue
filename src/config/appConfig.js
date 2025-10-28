@@ -6,10 +6,10 @@
 const APP_CONFIG = {
   // Window settings
   WINDOW: {
-    WIDTH: 400,
-    HEIGHT: 100,
+    WIDTH: 600,
+    HEIGHT: 800,
     MIN_WIDTH: 300,
-    MIN_HEIGHT: 80,
+    MIN_HEIGHT: 200,
     ALWAYS_ON_TOP: true,
     TRANSPARENT: true,
     FRAME: false,
@@ -34,7 +34,7 @@ const APP_CONFIG = {
     OPACITY: 0.8,
     CONTENT_PROTECTION: true,
     SKIP_TASKBAR: true,
-    ALWAYS_ON_TOP: false
+    ALWAYS_ON_TOP: true
   },
 
   // Global shortcuts

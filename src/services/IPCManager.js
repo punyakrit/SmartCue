@@ -12,6 +12,7 @@ class IPCManager {
   constructor(windowManager) {
     this.windowManager = windowManager;
     this.notesDirectory = path.join(process.cwd(), 'conversations');
+    this.handlersRegistered = false;
     this.setupIPCHandlers();
   }
 
@@ -19,9 +20,15 @@ class IPCManager {
    * Setup all IPC handlers
    */
   setupIPCHandlers() {
+    if (this.handlersRegistered) {
+      logger.debug('IPC handlers already registered, skipping...');
+      return;
+    }
+    
     this.setupNoteHandlers();
     this.setupWindowHandlers();
     this.setupSystemHandlers();
+    this.handlersRegistered = true;
     logger.info('IPC handlers registered');
   }
 
