@@ -9,25 +9,27 @@
 </head>
 <body>
     <div id="app" class="app">
-        <!-- Pill-shaped container with dark background -->
-        <div class="pill-container">
-            <div id="incognito-btn" class="incognito-button main-icon" title="Incognito Mode (Cmd+B)">
-                <i class="fas fa-user-secret incognito-icon-fa"></i>
+        <div class="container">
+            <div id="incognito-btn" class="icon-btn">
+                <i class="fas fa-user-secret"></i>
             </div>
-            <div id="incognito-status" class="incognito-status">OFF</div>
+            
+            <div id="private-badge" class="private-badge">Public</div>
+            
             <div class="separator"></div>
-            <div id="start-listening-btn" class="start-button">
-                <i class="fas fa-play start-icon"></i>
+            
+            <div id="start-listening-btn" class="action-btn">
+                <i class="fas fa-play"></i>
                 <span id="start-text">Start</span>
             </div>
+            
             <div class="separator"></div>
-           
-            <div id="hide-btn" class="close-button">
-                <i class="fas fa-times close-icon"></i>
+            
+            <div id="hide-btn" class="icon-btn">
+                <i class="fas fa-times"></i>
             </div>
         </div>
     </div>
-
 
     <script src="app.js"></script>
 </body>

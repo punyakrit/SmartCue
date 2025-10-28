@@ -387,31 +387,34 @@ class InterviewNotesApp {
   }
 
   updateUI() {
-    // Update recording button
     const startBtn = document.getElementById('start-listening-btn');
     const startText = document.getElementById('start-text');
+    const actionIcon = startBtn.querySelector('i');
     const incognitoBtn = document.getElementById('incognito-btn');
-    const incognitoStatus = document.getElementById('incognito-status');
+    const privateBadge = document.getElementById('private-badge');
     
     if (this.isRecording) {
       startBtn.classList.add('recording');
-      startText.textContent = 'Stop Listening';
+      startText.textContent = 'Stop';
+      if (actionIcon) {
+        actionIcon.className = 'fas fa-stop';
+      }
     } else {
       startBtn.classList.remove('recording');
-      startText.textContent = 'Start Listening';
+      startText.textContent = 'Start';
+      if (actionIcon) {
+        actionIcon.className = 'fas fa-play';
+      }
     }
 
-    // Update incognito button and status
     if (this.isIncognitoMode) {
       incognitoBtn.classList.add('active');
-      incognitoBtn.title = 'Incognito Mode ON - App UI hidden from screen capture';
-      incognitoStatus.textContent = 'ON';
-      incognitoStatus.classList.add('active');
+      privateBadge.classList.add('active');
+      privateBadge.textContent = 'Private';
     } else {
       incognitoBtn.classList.remove('active');
-      incognitoBtn.title = 'Incognito Mode OFF - Click to hide app UI from screen capture';
-      incognitoStatus.textContent = 'OFF';
-      incognitoStatus.classList.remove('active');
+      privateBadge.classList.remove('active');
+      privateBadge.textContent = 'Public';
     }
   }
 }
