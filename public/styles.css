@@ -44,15 +44,18 @@ html, body {
   color: white;
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
   transition: all 0.2s ease;
   min-width: 120px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.start-button:hover {
-  background: #0056CC;
-  transform: translateY(-1px);
+.start-icon {
+  font-size: 12px;
 }
+
+/* Hover effects removed - buttons are now visual only */
 
 .start-button.recording {
   background: #FF3B30;
@@ -73,7 +76,6 @@ html, body {
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
   padding: 8px;
   border-radius: 6px;
   transition: all 0.2s ease;
@@ -85,13 +87,15 @@ html, body {
   justify-content: center;
 }
 
-.menu-button:hover, .close-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+/* Hover effects removed - buttons are now visual only */
+
+.menu-icon {
+  font-size: 16px;
+  line-height: 1;
 }
 
-.grid-icon {
-  font-size: 18px;
+.close-icon {
+  font-size: 16px;
   line-height: 1;
 }
 
@@ -99,7 +103,6 @@ html, body {
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
   padding: 8px;
   border-radius: 6px;
   transition: all 0.2s ease;
@@ -111,10 +114,16 @@ html, body {
   justify-content: center;
 }
 
-.incognito-button:hover {
+.incognito-button.main-icon {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
   background: rgba(255, 255, 255, 0.1);
-  color: white;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
+
+/* Hover effects removed - buttons are now visual only */
 
 .incognito-button.active {
   background: rgba(255, 193, 7, 0.2);
@@ -127,17 +136,22 @@ html, body {
   background: rgba(255, 193, 7, 0.3);
 }
 
-.incognito-icon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-  transition: filter 0.2s ease;
+.incognito-icon-fa {
+  font-size: 18px;
+  line-height: 1;
+  color: white;
+  transition: all 0.2s ease;
   display: block;
+  text-align: center;
 }
 
-.incognito-button.active .incognito-icon {
-  filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(45deg);
+.incognito-button.main-icon .incognito-icon-fa {
+  font-size: 22px;
+}
+
+.incognito-button.active .incognito-icon-fa {
+  color: #ffc107;
+  transform: scale(1.1);
 }
 
 .incognito-fallback {
@@ -169,7 +183,6 @@ html, body {
   height: 60px;
   color: white;
   font-size: 24px;
-  cursor: pointer;
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

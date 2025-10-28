@@ -139,7 +139,14 @@ class DesktopFollower {
 
     try {
       const primaryDisplay = screen.getPrimaryDisplay();
-      const targetPosition = { x: 20, y: 20 };
+      const { width: screenWidth } = primaryDisplay.bounds;
+      const windowWidth = APP_CONFIG.WINDOW.WIDTH;
+      
+      // Center horizontally, position at top with some margin
+      const targetPosition = { 
+        x: Math.round((screenWidth - windowWidth) / 2), 
+        y: 50 
+      };
 
       // Apply incognito mode settings if active
       if (this.windowManager.isIncognitoMode) {

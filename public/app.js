@@ -38,53 +38,23 @@ class InterviewNotesApp {
   }
 
   setupEventListeners() {
-    const startListeningBtn = document.getElementById('start-listening-btn');
-    const menuBtn = document.getElementById('menu-btn');
-    const incognitoBtn = document.getElementById('incognito-btn');
-    const hideBtn = document.getElementById('hide-btn');
-    const showBtn = document.getElementById('show-btn');
-
-    startListeningBtn.addEventListener('click', () => this.toggleRecording());
-    menuBtn.addEventListener('click', () => this.showMenu());
-    incognitoBtn.addEventListener('click', () => this.toggleIncognito());
-    hideBtn.addEventListener('click', () => this.hide());
-    showBtn.addEventListener('click', () => this.show());
+    // All button functionality removed - will be handled by command shortcuts
+    // No click event listeners needed
   }
 
   setupKeyboardShortcuts() {
+    // All keyboard shortcuts removed - will be handled by command shortcuts
+    // Only keep essential functionality
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.hide();
-      } else if (e.metaKey && e.key === 'n') {
-        e.preventDefault();
-        this.newInterview();
-      } else if (e.metaKey && e.key === 'r') {
-        e.preventDefault();
-        this.toggleRecording();
-      } else if (e.metaKey && e.key === 's') {
-        e.preventDefault();
-        this.nextSection();
-      } else if (e.metaKey && e.key === 't') {
-        e.preventDefault();
-        this.addTimestamp();
-      } else if (e.metaKey && e.shiftKey && e.key === 'S') {
-        e.preventDefault();
-        this.toggleScreenCapture();
-      } else if (e.metaKey && e.shiftKey && e.key === 'A') {
-        e.preventDefault();
-        this.toggleAudioRecording();
       }
     });
   }
 
   setupElectronEvents() {
-    if (ipcRenderer) {
-      ipcRenderer.on('new-interview', () => this.newInterview());
-      ipcRenderer.on('toggle-recording', () => this.toggleRecording());
-      ipcRenderer.on('next-section', () => this.nextSection());
-      ipcRenderer.on('add-timestamp', () => this.addTimestamp());
-      ipcRenderer.on('clear-notes', () => this.clearNotes());
-    }
+    // All IPC event listeners removed - will be handled by command shortcuts
+    // Only keep essential functionality
   }
 
   async loadNotes() {

@@ -14,7 +14,7 @@ class WindowManager {
     this.isIncognitoMode = false;
     this.isManualMovement = false;
     this.manualMovementTimeout = null;
-    this.lastKnownPosition = { x: 20, y: 20 };
+    this.lastKnownPosition = { x: 0, y: 50 }; // Will be updated when window is created
   }
 
   /**
@@ -22,9 +22,21 @@ class WindowManager {
    */
   createWindow() {
     try {
+      // Calculate center position at top of screen
+      const primaryDisplay = screen.getPrimaryDisplay();
+      const { width: screenWidth, height: screenHeight } = primaryDisplay.bounds;
+      const windowWidth = APP_CONFIG.WINDOW.WIDTH;
+      const windowHeight = APP_CONFIG.WINDOW.HEIGHT;
+      
+      // Center horizontally, position at top with some margin
+      const x = Math.round((screenWidth - windowWidth) / 2);
+      const y = 50; // 50px from top of screen
+
       this.mainWindow = new BrowserWindow({
-        width: APP_CONFIG.WINDOW.WIDTH,
-        height: APP_CONFIG.WINDOW.HEIGHT,
+        width: windowWidth,
+        height: windowHeight,
+        x: x,
+        y: y,
         alwaysOnTop: APP_CONFIG.WINDOW.ALWAYS_ON_TOP,
         transparent: APP_CONFIG.WINDOW.TRANSPARENT,
         frame: APP_CONFIG.WINDOW.FRAME,
@@ -45,7 +57,10 @@ class WindowManager {
       this.loadContent();
       this.applyMacOSOptimizations();
 
-      logger.success('Main window created successfully');
+      // Update last known position
+      this.lastKnownPosition = { x, y };
+
+      logger.success(`Main window created successfully at top center: ${x}, ${y}`);
       return this.mainWindow;
     } catch (error) {
       logger.error('Failed to create window:', error);
