@@ -1,4 +1,4 @@
-# AI Assistant App
+# SmartCue
 
 A minimalist desktop AI assistant with always-on-top floating window, designed exclusively for Apple Silicon Macs.
 

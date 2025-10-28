@@ -36,15 +36,15 @@ class MenuManager {
     const template = [
       // macOS specific app menu
       ...(isMac ? [{
-        label: 'AI Assistant App',
+        label: 'SmartCue',
         submenu: [
           {
-            label: 'About AI Assistant App',
+            label: 'About SmartCue',
             role: 'about'
           },
           { type: 'separator' },
           {
-            label: 'Hide AI Assistant App',
+            label: 'Hide SmartCue',
             accelerator: 'Command+H',
             role: 'hide'
           },
@@ -234,7 +234,7 @@ class MenuManager {
    * Show about dialog
    */
   showAbout() {
-    logger.info('AI Assistant App - A minimalist desktop AI assistant');
+    logger.info('SmartCue - A minimalist desktop AI assistant');
   }
 
   /**

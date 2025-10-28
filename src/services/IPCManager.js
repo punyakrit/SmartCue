@@ -11,7 +11,7 @@ const logger = require('../utils/logger');
 class IPCManager {
   constructor(windowManager) {
     this.windowManager = windowManager;
-    this.notesDirectory = path.join(process.cwd(), 'notes');
+    this.notesDirectory = path.join(process.cwd(), 'conversations');
     this.setupIPCHandlers();
   }
 
@@ -165,39 +165,39 @@ class IPCManager {
   }
 
   /**
-   * Ensure notes directory exists
+   * Ensure conversations directory exists
    */
   async ensureNotesDirectory() {
     try {
       await fs.access(this.notesDirectory);
     } catch (error) {
       await fs.mkdir(this.notesDirectory, { recursive: true });
-      logger.info('Created notes directory');
+      logger.info('Created conversations directory');
     }
   }
 
   /**
-   * Generate filename for note
+   * Generate filename for conversation
    */
   generateFilename() {
     const now = new Date();
     const timestamp = now.toISOString().replace(/[:.]/g, '-');
-    return `note-${timestamp}.json`;
+    return `conversation-${timestamp}.json`;
   }
 
   /**
-   * Get notes directory path
+   * Get conversations directory path
    */
   getNotesDirectory() {
     return this.notesDirectory;
   }
 
   /**
-   * Set notes directory path
+   * Set conversations directory path
    */
   setNotesDirectory(directory) {
     this.notesDirectory = directory;
-    logger.info(`Notes directory changed to: ${directory}`);
+    logger.info(`Conversations directory changed to: ${directory}`);
   }
 }
 

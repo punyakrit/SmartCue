@@ -1,5 +1,5 @@
 /**
- * Main AI Assistant Application Class
+ * Main SmartCue Application Class
  * Orchestrates all services and manages application lifecycle
  */
 
@@ -11,7 +11,7 @@ const MenuManager = require('./services/MenuManager');
 const IPCManager = require('./services/IPCManager');
 const logger = require('./utils/logger');
 
-class AIAssistantApp {
+class SmartCueApp {
   constructor() {
     this.windowManager = new WindowManager();
     this.shortcutManager = new ShortcutManager(this.windowManager);
@@ -58,7 +58,7 @@ class AIAssistantApp {
    */
   async initialize() {
     try {
-      logger.info('Initializing AI Assistant App...');
+      logger.info('Initializing SmartCue...');
 
       // Check system requirements
       if (!this.checkSystemRequirements()) {
@@ -78,7 +78,7 @@ class AIAssistantApp {
       this.desktopFollower.startDetection();
       
       this.isReady = true;
-      logger.success('AI Assistant App initialized successfully');
+      logger.success('SmartCue initialized successfully');
 
     } catch (error) {
       logger.error('Failed to initialize application:', error);
@@ -248,4 +248,4 @@ class AIAssistantApp {
   }
 }
 
-module.exports = AIAssistantApp;
+module.exports = SmartCueApp;

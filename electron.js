@@ -1,15 +1,15 @@
 /**
  * Main Electron Process Entry Point
- * Clean, modular architecture for AI Assistant App
+ * Clean, modular architecture for SmartCue
  */
 
 // Only require and initialize when running in Electron context
 if (typeof require !== 'undefined' && require.main === module) {
-  const AIAssistantApp = require('./src/App');
+  const SmartCueApp = require('./src/App');
   const logger = require('./src/utils/logger');
 
   // Create application instance
-  const aiAssistantApp = new AIAssistantApp();
+  const smartCueApp = new SmartCueApp();
 
   // Handle uncaught exceptions
   process.on('uncaughtException', (error) => {

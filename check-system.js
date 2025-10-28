@@ -2,12 +2,12 @@
 
 /**
  * System Requirements Checker
- * Verifies that the system meets the requirements for AI Assistant App
+ * Verifies that the system meets the requirements for SmartCue
  */
 
 const os = require('os');
 
-console.log('🔍 Checking system requirements for AI Assistant App...\n');
+console.log('🔍 Checking system requirements for SmartCue...\n');
 
 // Check platform
 const platform = process.platform;

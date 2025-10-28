@@ -1,7 +1,7 @@
 {
-  "name": "ai-assistant-app",
+  "name": "smartcue",
   "version": "1.0.0",
-  "description": "A minimalist AI assistant with always-on-top floating window",
+  "description": "SmartCue - A minimalist AI assistant with always-on-top floating window",
   "main": "electron.js",
   "homepage": "./",
   "private": true,
@@ -20,8 +20,8 @@
     "dist": "npm run check && electron-builder"
   },
   "build": {
-    "appId": "com.aiassistant.app",
-    "productName": "AI Assistant",
+    "appId": "com.smartcue.app",
+    "productName": "SmartCue",
     "directories": {
       "output": "dist"
     },
@@ -45,7 +45,7 @@
       "minimumSystemVersion": "11.0.0"
     },
     "dmg": {
-      "title": "AI Assistant",
+      "title": "SmartCue",
       "icon": "assets/icon.icns",
       "background": "assets/dmg-background.png",
       "window": {
