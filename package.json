@@ -58,15 +58,11 @@
           "arch": ["arm64"]
         }
       ],
-      "icon": "assets/icon.icns",
       "darkModeSupport": true,
-      "vibrancy": "under-window",
       "minimumSystemVersion": "11.0.0"
     },
     "dmg": {
       "title": "SmartCue",
-      "icon": "assets/icon.icns",
-      "background": "assets/dmg-background.png",
       "window": {
         "width": 540,
         "height": 380

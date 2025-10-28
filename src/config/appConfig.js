@@ -34,7 +34,7 @@ const APP_CONFIG = {
     OPACITY: 0.8,
     CONTENT_PROTECTION: true,
     SKIP_TASKBAR: true,
-    ALWAYS_ON_TOP: true
+    ALWAYS_ON_TOP: false
   },
 
   // Global shortcuts
