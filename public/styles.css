@@ -118,22 +118,33 @@ html, body {
   width: 40px;
   height: 40px;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.incognito-button.main-icon:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
 }
 
 /* Hover effects removed - buttons are now visual only */
 
 .incognito-button.active {
-  background: rgba(255, 193, 7, 0.2);
-  border: 1px solid rgba(255, 193, 7, 0.4);
-  color: #ffc107;
-  animation: pulse 2s infinite;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  border: 2px solid #ff4757;
+  color: white;
+  animation: incognitoPulse 1.5s infinite;
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+  transform: scale(1.1);
 }
 
 .incognito-button.active:hover {
-  background: rgba(255, 193, 7, 0.3);
+  background: linear-gradient(135deg, #ff5252, #d63031);
+  box-shadow: 0 0 25px rgba(255, 107, 107, 0.7);
+  transform: scale(1.15);
 }
 
 .incognito-icon-fa {
@@ -150,8 +161,9 @@ html, body {
 }
 
 .incognito-button.active .incognito-icon-fa {
-  color: #ffc107;
-  transform: scale(1.1);
+  color: white;
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
 }
 
 .incognito-fallback {
@@ -163,6 +175,34 @@ html, body {
 
 .incognito-button.active .incognito-fallback {
   color: #ffc107;
+}
+
+.incognito-status {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  min-width: 35px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.incognito-status.active {
+  color: white;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  border: 1px solid #ff4757;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+  animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
 }
 
 /* Hidden state */
@@ -211,6 +251,21 @@ html, body {
   0% { opacity: 1; }
   50% { opacity: 0.5; }
   100% { opacity: 1; }
+}
+
+@keyframes incognitoPulse {
+  0% { 
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+    transform: scale(1.1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
+    transform: scale(1.15);
+  }
+  100% { 
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+    transform: scale(1.1);
+  }
 }
 
 /* Responsive design */

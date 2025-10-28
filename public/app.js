@@ -53,8 +53,13 @@ class InterviewNotesApp {
   }
 
   setupElectronEvents() {
-    // All IPC event listeners removed - will be handled by command shortcuts
-    // Only keep essential functionality
+    // Listen for incognito mode changes from main process
+    if (ipcRenderer) {
+      ipcRenderer.on('incognito-toggled', (event, data) => {
+        this.isIncognitoMode = data.enabled;
+        this.updateUI();
+      });
+    }
   }
 
   async loadNotes() {
@@ -386,6 +391,7 @@ class InterviewNotesApp {
     const startBtn = document.getElementById('start-listening-btn');
     const startText = document.getElementById('start-text');
     const incognitoBtn = document.getElementById('incognito-btn');
+    const incognitoStatus = document.getElementById('incognito-status');
     
     if (this.isRecording) {
       startBtn.classList.add('recording');
@@ -395,13 +401,17 @@ class InterviewNotesApp {
       startText.textContent = 'Start Listening';
     }
 
-    // Update incognito button
+    // Update incognito button and status
     if (this.isIncognitoMode) {
       incognitoBtn.classList.add('active');
       incognitoBtn.title = 'Incognito Mode ON - App UI hidden from screen capture';
+      incognitoStatus.textContent = 'ON';
+      incognitoStatus.classList.add('active');
     } else {
       incognitoBtn.classList.remove('active');
       incognitoBtn.title = 'Incognito Mode OFF - Click to hide app UI from screen capture';
+      incognitoStatus.textContent = 'OFF';
+      incognitoStatus.classList.remove('active');
     }
   }
 }

@@ -302,9 +302,9 @@ class WindowManager {
       this.mainWindow.setPosition(newPosition.x, newPosition.y);
       this.mainWindow.setAlwaysOnTop(true, 'screen-saver');
       this.mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-      this.mainWindow.show();
-      this.mainWindow.setFocusable(false);
-      // Don't move to top or focus - keep it invisible to user interaction
+      
+      // Show window without stealing focus
+      this.showWindowWithoutFocus();
 
       this.lastKnownPosition = newPosition;
       logger.windowMove(direction, `${newPosition.x} ${newPosition.y}`);
@@ -471,6 +471,7 @@ class WindowManager {
     if (!this.mainWindow) return;
 
     // Store current focus before showing
+    this.storeFocusedWindow();
 
     // Apply settings based on current incognito state
     if (this.isIncognitoMode) {
