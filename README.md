@@ -1,5 +1,10 @@
 # SmartCue
 
+[![GitHub](https://img.shields.io/github/license/punyakrit/SmartCue)](https://github.com/punyakrit/SmartCue/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/punyakrit/SmartCue)](https://github.com/punyakrit/SmartCue/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/punyakrit/SmartCue)](https://github.com/punyakrit/SmartCue/network)
+[![Platform](https://img.shields.io/badge/platform-macOS%20(Apple%20Silicon)-blue)](https://github.com/punyakrit/SmartCue)
+
 A minimalist desktop AI assistant with always-on-top floating window, designed exclusively for Apple Silicon Macs.
 
 ## Features
@@ -167,4 +172,22 @@ Structured logging system with:
 
 ## License
 
-MIT License - see LICENSE file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Support
+
+If you encounter any issues or have questions, please file an issue on [GitHub](https://github.com/punyakrit/SmartCue/issues).
+
+## Repository
+
+🔗 **[View on GitHub](https://github.com/punyakrit/SmartCue)**
+
+⭐ **Star the repository** if you find SmartCue useful!

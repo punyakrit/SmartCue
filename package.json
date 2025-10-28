@@ -3,7 +3,26 @@
   "version": "1.0.0",
   "description": "SmartCue - A minimalist AI assistant with always-on-top floating window",
   "main": "electron.js",
-  "homepage": "./",
+  "license": "MIT",
+  "author": "SmartCue Team",
+  "keywords": [
+    "ai",
+    "assistant",
+    "desktop",
+    "electron",
+    "macos",
+    "apple-silicon",
+    "floating-window",
+    "always-on-top"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/punyakrit/SmartCue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/punyakrit/SmartCue/issues"
+  },
+  "homepage": "https://github.com/punyakrit/SmartCue#readme",
   "private": true,
   "dependencies": {},
   "devDependencies": {

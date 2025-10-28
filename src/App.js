@@ -1,6 +1,9 @@
 /**
  * Main SmartCue Application Class
  * Orchestrates all services and manages application lifecycle
+ * 
+ * Copyright (c) 2025 SmartCue
+ * Licensed under the MIT License
  */
 
 const { app } = require('electron');

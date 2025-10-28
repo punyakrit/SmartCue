@@ -1,6 +1,9 @@
 /**
  * Main Electron Process Entry Point
  * Clean, modular architecture for SmartCue
+ * 
+ * Copyright (c) 2025 SmartCue
+ * Licensed under the MIT License
  */
 
 // Only require and initialize when running in Electron context
