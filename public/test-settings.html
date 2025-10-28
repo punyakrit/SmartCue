@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Settings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Settings Test Page</h1>
+    <p>This page tests the settings functionality.</p>
+    
+    <button class="test-btn" onclick="testOpenSettings()">Test Open Settings</button>
+    <button class="test-btn" onclick="testDirectLink()">Test Direct Link</button>
+    
+    <div id="output"></div>
+
+    <script>
+        function testOpenSettings() {
+            const output = document.getElementById('output');
+            output.innerHTML = '<p>Testing settings window...</p>';
+            
+            try {
+                const settingsWindow = window.open(
+                    'settings.html',
+                    'SmartCue Settings',
+                    'width=1000,height=700,resizable=yes,scrollbars=yes,menubar=no,toolbar=no,location=no,status=no'
+                );
+                
+                if (settingsWindow) {
+                    output.innerHTML = '<p style="color: green;">✅ Settings window opened successfully!</p>';
+                    settingsWindow.focus();
+                } else {
+                    output.innerHTML = '<p style="color: red;">❌ Failed to open settings window - popup blocked</p>';
+                }
+            } catch (error) {
+                output.innerHTML = '<p style="color: red;">❌ Error: ' + error.message + '</p>';
+            }
+        }
+        
+        function testDirectLink() {
+            window.location.href = 'settings.html';
+        }
+    </script>
+</body>
+</html>

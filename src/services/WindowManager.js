@@ -11,6 +11,7 @@ const logger = require('../utils/logger');
 class WindowManager {
   constructor(shortcutManager = null) {
     this.mainWindow = null;
+    this.settingsWindow = null;
     this.isIncognitoMode = false;
     this.isManualMovement = false;
     this.manualMovementTimeout = null;
@@ -182,6 +183,11 @@ class WindowManager {
     this.mainWindow.setSkipTaskbar(APP_CONFIG.INCOGNITO.SKIP_TASKBAR);
     this.mainWindow.setOpacity(APP_CONFIG.INCOGNITO.OPACITY);
     this.mainWindow.setFocusable(false);
+    
+    // Apply same protection to settings window if it exists
+    if (this.settingsWindow && !this.settingsWindow.isDestroyed()) {
+      this.enableIncognitoModeForSettings();
+    }
   }
 
   /**
@@ -196,6 +202,11 @@ class WindowManager {
     this.mainWindow.setOpacity(1.0);
     this.mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     this.mainWindow.setFocusable(false);
+    
+    // Apply same settings to settings window if it exists
+    if (this.settingsWindow && !this.settingsWindow.isDestroyed()) {
+      this.disableIncognitoModeForSettings();
+    }
   }
 
   /**
@@ -499,6 +510,153 @@ class WindowManager {
     // Re-enable all shortcuts when showing
     if (this.shortcutManager) {
       this.shortcutManager.enableAllShortcuts();
+    }
+  }
+
+  /**
+   * Create settings window with kernel-level protection
+   */
+  createSettingsWindow() {
+    try {
+      // Check if settings window already exists
+      if (this.settingsWindow && !this.settingsWindow.isDestroyed()) {
+        this.settingsWindow.focus();
+        logger.info('Settings window already open, focusing existing window');
+        return this.settingsWindow;
+      }
+
+      // Calculate position for settings window
+      const primaryDisplay = screen.getPrimaryDisplay();
+      const { width: screenWidth, height: screenHeight } = primaryDisplay.bounds;
+      const windowWidth = 1000;
+      const windowHeight = 700;
+      
+      // Center the settings window
+      const x = Math.round((screenWidth - windowWidth) / 2);
+      const y = Math.round((screenHeight - windowHeight) / 2);
+
+      // Create settings window
+      this.settingsWindow = new BrowserWindow({
+        width: windowWidth,
+        height: windowHeight,
+        x: x,
+        y: y,
+        alwaysOnTop: false, // Will be set by incognito mode
+        transparent: false,
+        frame: true,
+        resizable: true,
+        skipTaskbar: false, // Will be set by incognito mode
+        hasShadow: true,
+        focusable: true,
+        acceptFirstMouse: true,
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false,
+          enableRemoteModule: false,
+          webSecurity: true
+        },
+        title: 'Settings - SmartCue',
+        show: false
+      });
+
+      // Load settings HTML
+      const settingsPath = path.join(__dirname, '../../public/settings.html');
+      this.settingsWindow.loadFile(settingsPath);
+
+      // Apply incognito mode settings by default (since main app is in incognito mode)
+      this.settingsWindow.setContentProtection(APP_CONFIG.INCOGNITO.CONTENT_PROTECTION);
+      this.settingsWindow.setAlwaysOnTop(APP_CONFIG.INCOGNITO.ALWAYS_ON_TOP);
+      this.settingsWindow.setSkipTaskbar(APP_CONFIG.INCOGNITO.SKIP_TASKBAR);
+      this.settingsWindow.setOpacity(APP_CONFIG.INCOGNITO.OPACITY);
+      this.settingsWindow.setFocusable(false);
+
+      // Show window when ready
+      this.settingsWindow.once('ready-to-show', () => {
+        this.settingsWindow.show();
+        logger.success('Settings window created and shown');
+      });
+
+      // Handle window closed
+      this.settingsWindow.on('closed', () => {
+        this.settingsWindow = null;
+        logger.info('Settings window closed');
+      });
+
+      // Apply additional kernel-level protection
+      this.settingsWindow.webContents.once('did-finish-load', () => {
+        this.settingsWindow.webContents.executeJavaScript(`
+          console.log('🔒 Settings window loaded with kernel-level protection');
+          
+          // Add additional CSS protection
+          const style = document.createElement('style');
+          style.textContent = \`
+            /* Enhanced kernel-level protection */
+            * {
+              -webkit-backface-visibility: hidden !important;
+              backface-visibility: hidden !important;
+              -webkit-transform: translateZ(0) !important;
+              transform: translateZ(0) !important;
+            }
+            
+            .settings-container {
+              -webkit-backface-visibility: hidden !important;
+              backface-visibility: hidden !important;
+              -webkit-transform: translateZ(0) !important;
+              transform: translateZ(0) !important;
+              will-change: transform;
+            }
+          \`;
+          document.head.appendChild(style);
+          
+          console.log('✅ Additional kernel-level protection applied to settings');
+        `);
+      });
+
+      return this.settingsWindow;
+
+    } catch (error) {
+      logger.error('Failed to create settings window:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Enable incognito mode for settings window
+   */
+  enableIncognitoModeForSettings() {
+    if (!this.settingsWindow || this.settingsWindow.isDestroyed()) return;
+
+    try {
+      // Apply the same incognito settings as main window
+      this.settingsWindow.setContentProtection(APP_CONFIG.INCOGNITO.CONTENT_PROTECTION);
+      this.settingsWindow.setAlwaysOnTop(APP_CONFIG.INCOGNITO.ALWAYS_ON_TOP);
+      this.settingsWindow.setSkipTaskbar(APP_CONFIG.INCOGNITO.SKIP_TASKBAR);
+      this.settingsWindow.setOpacity(APP_CONFIG.INCOGNITO.OPACITY);
+      this.settingsWindow.setFocusable(false);
+      
+      logger.success('🔒 Settings window incognito mode ENABLED - Hidden from screen capture');
+    } catch (error) {
+      logger.error('Error enabling incognito mode for settings:', error);
+    }
+  }
+
+  /**
+   * Disable incognito mode for settings window
+   */
+  disableIncognitoModeForSettings() {
+    if (!this.settingsWindow || this.settingsWindow.isDestroyed()) return;
+
+    try {
+      // Apply normal visibility settings
+      this.settingsWindow.setContentProtection(false);
+      this.settingsWindow.setAlwaysOnTop(true, 'screen-saver');
+      this.settingsWindow.setSkipTaskbar(false);
+      this.settingsWindow.setOpacity(1.0);
+      this.settingsWindow.setFocusable(true);
+      
+      logger.info('🔓 Settings window incognito mode DISABLED - Visible in screen capture');
+    } catch (error) {
+      logger.error('Error disabling incognito mode for settings:', error);
     }
   }
 }

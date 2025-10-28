@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Test - SmartCue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        .test-section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .test-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #4CAF50;
+            color: white;
+        }
+        .error {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Settings Test Page</h1>
+        
+        <div class="test-section">
+            <h2>Basic Test</h2>
+            <p>This is a simplified test version of the settings page.</p>
+            <div id="status" class="status success">✅ Settings page loaded successfully!</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>JavaScript Test</h2>
+            <button class="test-btn" onclick="testJavaScript()">Test JavaScript</button>
+            <div id="js-status"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>CSS Test</h2>
+            <div style="background: #007bff; color: white; padding: 10px; border-radius: 5px;">
+                ✅ CSS is working - this box should be blue
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Font Awesome Test</h2>
+            <i class="fas fa-cog" style="font-size: 24px; color: #007bff;"></i>
+            <span style="margin-left: 10px;">✅ Font Awesome icons working</span>
+        </div>
+        
+        <div class="test-section">
+            <h2>Window Test</h2>
+            <button class="test-btn" onclick="testWindowClose()">Test Window Close</button>
+            <p>Click the button above to test closing this window.</p>
+        </div>
+    </div>
+
+    <script>
+        function testJavaScript() {
+            const status = document.getElementById('js-status');
+            try {
+                // Test basic JavaScript functionality
+                const testObj = { test: 'value' };
+                const testArray = [1, 2, 3];
+                const testFunction = () => 'working';
+                
+                if (testObj.test === 'value' && testArray.length === 3 && testFunction() === 'working') {
+                    status.innerHTML = '<div class="status success">✅ JavaScript is working correctly!</div>';
+                } else {
+                    status.innerHTML = '<div class="status error">❌ JavaScript test failed</div>';
+                }
+            } catch (error) {
+                status.innerHTML = '<div class="status error">❌ JavaScript error: ' + error.message + '</div>';
+            }
+        }
+        
+        function testWindowClose() {
+            if (confirm('Close this test window?')) {
+                window.close();
+            }
+        }
+        
+        // Log when page loads
+        console.log('Settings test page loaded successfully');
+        
+        // Test if we can access the parent window
+        try {
+            if (window.opener) {
+                console.log('This window was opened by another window');
+            } else {
+                console.log('This window was opened directly');
+            }
+        } catch (error) {
+            console.log('Cannot access window.opener:', error.message);
+        }
+    </script>
+</body>
+</html>

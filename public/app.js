@@ -7,7 +7,7 @@ class InterviewNotesApp {
     this.isRecording = false;
     this.isScreenCapturing = false;
     this.isAudioRecording = false;
-    this.isIncognitoMode = false;
+    this.isIncognitoMode = true; // Default to incognito mode
     this.currentSection = 'Introduction';
     this.interviewStartTime = null;
     this.lastSaved = null;
@@ -15,6 +15,7 @@ class InterviewNotesApp {
     this.mediaRecorder = null;
     this.screenStream = null;
     this.audioStream = null;
+    this.settingsWindow = null; // Track settings window
 
     this.interviewSections = [
       'Introduction',
@@ -38,9 +39,199 @@ class InterviewNotesApp {
   }
 
   setupEventListeners() {
-    // All button functionality removed - will be handled by command shortcuts
-    // No click event listeners needed
+    // Settings button functionality
+    const settingsBtn = document.getElementById('settings-btn');
+    console.log('Settings button found:', settingsBtn);
+
+    // Open settings in new window
+    if (settingsBtn) {
+      // Add visual feedback
+      settingsBtn.addEventListener('mousedown', () => {
+        settingsBtn.style.transform = 'scale(0.95)';
+      });
+      
+      settingsBtn.addEventListener('mouseup', () => {
+        settingsBtn.style.transform = 'scale(1)';
+      });
+      
+      settingsBtn.addEventListener('click', (e) => {
+        console.log('Settings button clicked!');
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Add visual feedback
+        settingsBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+        setTimeout(() => {
+          settingsBtn.style.background = 'transparent';
+        }, 150);
+        
+        this.openSettingsWindow();
+      });
+    } else {
+      console.error('Settings button not found!');
+    }
   }
+
+  openSettingsWindow() {
+    console.log('openSettingsWindow called');
+    
+    // Check if settings window is already open
+    if (this.settingsWindow && !this.settingsWindow.closed) {
+      console.log('Settings window already open, focusing...');
+      this.settingsWindow.focus();
+      return;
+    }
+    
+    // Check if we're in Electron environment
+    if (typeof require !== 'undefined' && require('electron')) {
+      console.log('Running in Electron environment');
+      // In Electron, open settings in a new window
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.send('open-settings-window');
+    } else {
+      console.log('Running in browser environment');
+      
+      // Try multiple approaches
+      this.tryOpenSettings();
+    }
+  }
+
+  tryOpenSettings() {
+    // First, let's test if we can access the file
+    console.log('Current location:', window.location.href);
+    console.log('Current directory:', window.location.pathname);
+    
+    // Test if the file exists by trying to fetch it
+    fetch('settings.html')
+      .then(response => {
+        console.log('File fetch response:', response.status);
+        if (response.ok) {
+          console.log('File exists and is accessible');
+          this.openSettingsWindow();
+        } else {
+          console.error('File not accessible:', response.status);
+          this.showFileError();
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching file:', error);
+        this.showFileError();
+      });
+  }
+
+  openSettingsWindow() {
+    const approaches = [
+      () => {
+        console.log('Approach 1: Basic window.open with kernel protection');
+        const win = window.open('settings.html', '_blank');
+        if (win) {
+          this.settingsWindow = win;
+          // Enable kernel protection for settings window
+          this.enableSettingsProtection(win);
+          // Set up window close detection
+          const checkClosed = setInterval(() => {
+            if (win.closed) {
+              this.settingsWindow = null;
+              clearInterval(checkClosed);
+            }
+          }, 1000);
+        }
+        return win;
+      },
+      () => {
+        console.log('Approach 2: Window with features and kernel protection');
+        const win = window.open('settings.html', 'SmartCue_Settings', 'width=1000,height=700');
+        if (win) {
+          this.settingsWindow = win;
+          // Enable kernel protection for settings window
+          this.enableSettingsProtection(win);
+          // Set up window close detection
+          const checkClosed = setInterval(() => {
+            if (win.closed) {
+              this.settingsWindow = null;
+              clearInterval(checkClosed);
+            }
+          }, 1000);
+        }
+        return win;
+      },
+      () => {
+        console.log('Approach 3: Create link element');
+        const link = document.createElement('a');
+        link.href = 'settings.html';
+        link.target = '_blank';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        return true; // Assume success
+      },
+      () => {
+        console.log('Approach 4: Navigate in same window');
+        if (confirm('Open settings in the same window?')) {
+          window.location.href = 'settings.html';
+          return true;
+        }
+        return false;
+      }
+    ];
+
+    for (let i = 0; i < approaches.length; i++) {
+      try {
+        console.log(`Trying approach ${i + 1}`);
+        const result = approaches[i]();
+        
+        if (result && result !== false) {
+          console.log(`Approach ${i + 1} succeeded`);
+          if (result.focus) {
+            result.focus();
+          }
+          return;
+        }
+      } catch (error) {
+        console.error(`Approach ${i + 1} failed:`, error);
+      }
+    }
+    
+    console.error('All approaches failed');
+    alert('Unable to open settings. Please check if popups are blocked or try opening settings-test.html directly.');
+  }
+
+  enableSettingsProtection(settingsWindow) {
+    // Enable kernel-level protection for settings window
+    console.log('Enabling kernel-level protection for settings window...');
+    
+    try {
+      // Check if we're in Electron environment
+      if (typeof require !== 'undefined' && require('electron')) {
+        const { ipcRenderer } = require('electron');
+        
+        // Request kernel-level protection for settings window
+        ipcRenderer.invoke('enable-kernel-protection', {
+          windowType: 'settings',
+          protectionLevel: 'kernel',
+          windowId: settingsWindow.name || 'settings'
+        }).then(result => {
+          if (result.success) {
+            console.log('✅ Kernel-level protection enabled for settings window');
+          } else {
+            console.warn('⚠️ Could not enable kernel protection for settings:', result.message);
+          }
+        }).catch(error => {
+          console.error('❌ Error enabling kernel protection for settings:', error);
+        });
+      } else {
+        console.log('Browser environment - settings will use fallback protection');
+      }
+    } catch (error) {
+      console.error('Error enabling settings protection:', error);
+    }
+  }
+
+  showFileError() {
+    alert('Settings file not found or not accessible. Please make sure you are running this from a web server (not file:// protocol).\n\nTry opening index.html through a local server like:\n- python3 -m http.server 8000\n- npx serve .\n- or any other local server');
+  }
+
 
   setupKeyboardShortcuts() {
     // All keyboard shortcuts removed - will be handled by command shortcuts
@@ -407,6 +598,7 @@ class InterviewNotesApp {
       }
     }
 
+    // Always show incognito mode as active by default
     if (this.isIncognitoMode) {
       incognitoBtn.classList.add('active');
       privateBadge.classList.add('active');
@@ -421,5 +613,16 @@ class InterviewNotesApp {
 
 // Initialize the app when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  new InterviewNotesApp();
+  console.log('DOM loaded, initializing app...');
+  const app = new InterviewNotesApp();
+  console.log('App initialized:', app);
+  
+  // Test if settings button exists after initialization
+  setTimeout(() => {
+    const settingsBtn = document.getElementById('settings-btn');
+    console.log('Settings button after init:', settingsBtn);
+    if (settingsBtn) {
+      console.log('Settings button is clickable:', settingsBtn.style.pointerEvents);
+    }
+  }, 100);
 });

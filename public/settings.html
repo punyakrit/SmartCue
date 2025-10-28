@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - SmartCue</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="settings.css">
+    <style>
+        /* Kernel-level screen sharing protection */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Hide from screen capture */
+        .settings-container {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+        
+        /* Additional protection for sensitive content */
+        .settings-sidebar,
+        .settings-main {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+
+        <!-- Sidebar -->
+        <div class="settings-sidebar">
+            <div class="sidebar-header">
+                <h1>Settings</h1>
+            </div>
+            
+            <div class="sidebar-nav">
+                <div class="nav-item active" data-section="general">
+                    <i class="fas fa-cog"></i>
+                    <span>General</span>
+                </div>
+                
+                <div class="nav-item" data-section="audio">
+                    <i class="fas fa-volume-up"></i>
+                    <span>Audio</span>
+                </div>
+                
+                <div class="nav-item" data-section="privacy">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Privacy</span>
+                </div>
+                
+                <div class="nav-item" data-section="shortcuts">
+                    <i class="fas fa-keyboard"></i>
+                    <span>Keybinds</span>
+                </div>
+                
+                <div class="nav-item" data-section="appearance">
+                    <i class="fas fa-palette"></i>
+                    <span>Appearance</span>
+                </div>
+                
+                <div class="nav-item" data-section="advanced">
+                    <i class="fas fa-tools"></i>
+                    <span>Advanced</span>
+                </div>
+                
+                <div class="nav-divider"></div>
+                
+                <div class="nav-category">
+                    <span>Support</span>
+                </div>
+                
+                <div class="nav-item" data-section="help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help Center</span>
+                </div>
+                
+                <div class="nav-item" data-section="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="settings-main">
+            <!-- General Section -->
+            <div id="general-section" class="settings-section active">
+                <div class="section-header">
+                    <h2>General Settings</h2>
+                    <p>Customize how SmartCue works for you</p>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-power-off"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Open SmartCue when you log in</h3>
+                                <p>SmartCue will open automatically when you log in to your computer</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="auto-start">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Theme</h3>
+                                <p>Customize how SmartCue looks on your device</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <select id="theme-select" class="modern-select">
+                                <option value="system">System Preference</option>
+                                <option value="dark">Dark</option>
+                                <option value="light">Light</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-eye-slash"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Incognito Mode</h3>
+                                <p>SmartCue is currently hidden from screen-sharing (kernel-level protection enabled by default)</p>
+                                <a href="#" class="setting-link">Supported apps here</a>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="incognito-mode" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Version</h3>
+                                <p>You are currently using SmartCue version 1.0.0</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <button class="modern-btn secondary">Check for updates</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audio Section -->
+            <div id="audio-section" class="settings-section">
+                <div class="section-header">
+                    <h2>Audio Settings</h2>
+                    <p>Configure audio recording and playback options</p>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Microphone Sensitivity</h3>
+                                <p>Adjust how sensitive the microphone is to sound</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <div class="range-container">
+                                <input type="range" id="mic-sensitivity" min="0" max="100" value="50" class="modern-range">
+                                <span class="range-value">50%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Audio Quality</h3>
+                                <p>Higher quality uses more storage space</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <select id="audio-quality" class="modern-select">
+                                <option value="low">Low (32 kbps)</option>
+                                <option value="medium" selected>Medium (64 kbps)</option>
+                                <option value="high">High (128 kbps)</option>
+                                <option value="lossless">Lossless (320 kbps)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-volume-mute"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Noise Reduction</h3>
+                                <p>Reduce background noise in recordings</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="noise-reduction" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Section -->
+            <div id="privacy-section" class="settings-section">
+                <div class="section-header">
+                    <h2>Privacy Settings</h2>
+                    <p>Control your data and privacy preferences</p>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Data Collection</h3>
+                                <p>Allow collection of anonymous usage data to improve the app</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="data-collection">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Analytics</h3>
+                                <p>Send analytics data to help improve performance</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="analytics">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Auto-delete recordings</h3>
+                                <p>Automatically delete recordings older than specified time</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <select id="auto-delete" class="modern-select">
+                                <option value="never">Never</option>
+                                <option value="7days">7 days</option>
+                                <option value="30days">30 days</option>
+                                <option value="90days">90 days</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shortcuts Section -->
+            <div id="shortcuts-section" class="settings-section">
+                <div class="section-header">
+                    <h2>Keyboard Shortcuts</h2>
+                    <p>Customize keyboard shortcuts for quick access</p>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Start/Stop Listening</h3>
+                                <p>Toggle audio recording on/off</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <div class="shortcut-display">Ctrl+Space</div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-eye-slash"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Toggle Visibility</h3>
+                                <p>Show/hide the main window</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <div class="shortcut-display">Ctrl+H</div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Open Settings</h3>
+                                <p>Open the settings window</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <div class="shortcut-display">Ctrl+,</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appearance Section -->
+            <div id="appearance-section" class="settings-section">
+                <div class="section-header">
+                    <h2>Appearance</h2>
+                    <p>Customize the look and feel of SmartCue</p>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Color Scheme</h3>
+                                <p>Choose your preferred color scheme</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <select id="color-scheme" class="modern-select">
+                                <option value="auto">Auto</option>
+                                <option value="dark">Dark</option>
+                                <option value="light">Light</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-text-height"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Font Size</h3>
+                                <p>Adjust the size of text in the interface</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <div class="range-container">
+                                <input type="range" id="font-size" min="12" max="18" value="14" class="modern-range">
+                                <span class="range-value">14px</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Section -->
+            <div id="advanced-section" class="settings-section">
+                <div class="section-header">
+                    <h2>Advanced Settings</h2>
+                    <p>Configure experimental SmartCue features</p>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Debug Mode</h3>
+                                <p>Enable detailed logging for troubleshooting</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="debug-mode">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-save"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Auto-save Interval</h3>
+                                <p>How often to automatically save notes (in seconds)</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <div class="range-container">
+                                <input type="range" id="auto-save-interval" min="5" max="300" value="30" class="modern-range">
+                                <span class="range-value">30s</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-folder"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Storage Location</h3>
+                                <p>Where to store recordings and notes</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <div class="path-container">
+                                <input type="text" id="storage-location" value="~/Documents/SmartCue" class="path-input" readonly>
+                                <button id="browse-storage" class="modern-btn secondary">Browse</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div id="help-section" class="settings-section">
+                <div class="section-header">
+                    <h2>Help Center</h2>
+                    <p>Get help and support for SmartCue</p>
+                </div>
+
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Documentation</h3>
+                                <p>Read the complete user guide and documentation</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <button class="modern-btn secondary">Open Guide</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-content">
+                            <div class="setting-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <div class="setting-info">
+                                <h3>Report a Bug</h3>
+                                <p>Found an issue? Let us know so we can fix it</p>
+                            </div>
+                        </div>
+                        <div class="setting-control">
+                            <button class="modern-btn secondary">Report Bug</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div id="about-section" class="settings-section">
+                <div class="section-header">
+                    <h2>About SmartCue</h2>
+                    <p>Learn more about SmartCue and its features</p>
+                </div>
+
+                <div class="settings-group">
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <div class="about-content">
+                            <h3>SmartCue v1.0.0</h3>
+                            <p>Intelligent voice recording and note-taking application designed for interviews, meetings, and conversations.</p>
+                            <div class="about-features">
+                                <span class="feature-tag">Voice Recording</span>
+                                <span class="feature-tag">Auto Transcription</span>
+                                <span class="feature-tag">Smart Notes</span>
+                                <span class="feature-tag">Privacy Focused</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>

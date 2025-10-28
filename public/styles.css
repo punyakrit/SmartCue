@@ -47,6 +47,21 @@ html, body {
   pointer-events: none;
 }
 
+#settings-btn {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  user-select: none;
+}
+
+#settings-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+#settings-btn:active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(0.95);
+}
+
 .icon-btn i {
   font-size: 18px;
 }
@@ -111,6 +126,7 @@ html, body {
   }
 }
 
+
 @media (max-width: 600px) {
   .container {
     padding: 6px;
@@ -129,4 +145,5 @@ html, body {
     padding: 8px 16px;
     font-size: 13px;
   }
+  
 }

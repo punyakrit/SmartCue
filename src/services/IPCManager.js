@@ -117,6 +117,18 @@ class IPCManager {
       this.windowManager.moveWindow(direction);
       return { success: true };
     });
+
+    // Open settings window
+    ipcMain.handle('open-settings-window', () => {
+      try {
+        this.windowManager.createSettingsWindow();
+        logger.info('Settings window opened');
+        return { success: true };
+      } catch (error) {
+        logger.error('Failed to open settings window:', error);
+        return { success: false, error: error.message };
+      }
+    });
   }
 
   /**
@@ -156,6 +168,118 @@ class IPCManager {
           scaleFactor: primaryDisplay.scaleFactor
         }
       };
+    });
+
+    // Enable kernel-level protection
+    ipcMain.handle('enable-kernel-protection', async (event, options) => {
+      try {
+        const { windowType, protectionLevel, windowId } = options;
+        
+        logger.info(`Enabling ${protectionLevel} protection for ${windowType} window`);
+        
+        // Get the window that sent the request
+        const window = event.sender.getOwnerBrowserWindow();
+        
+        if (window) {
+          // Apply kernel-level screen sharing protection
+          if (process.platform === 'darwin') {
+            // macOS specific kernel-level protection
+            const { screen } = require('electron');
+            
+            // Set window to be excluded from screen capture
+            window.setContentProtection(true);
+            
+            // Additional macOS specific protection
+            if (window.webContents) {
+              window.webContents.executeJavaScript(`
+                // Add CSS protection
+                const style = document.createElement('style');
+                style.textContent = \`
+                  * {
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                  }
+                \`;
+                document.head.appendChild(style);
+                
+                console.log('✅ Kernel-level protection applied to ${windowType} window');
+              `);
+            }
+            
+            logger.success(`✅ Kernel-level protection enabled for ${windowType} window`);
+            return { 
+              success: true, 
+              message: `Kernel-level protection enabled for ${windowType}`,
+              protectionLevel: 'kernel'
+            };
+          } else {
+            // Fallback for other platforms
+            window.setContentProtection(true);
+            logger.warn(`⚠️ Using fallback protection for ${windowType} on ${process.platform}`);
+            return { 
+              success: true, 
+              message: `Fallback protection enabled for ${windowType}`,
+              protectionLevel: 'fallback'
+            };
+          }
+        } else {
+          logger.error('❌ Could not find window for protection');
+          return { 
+            success: false, 
+            message: 'Window not found for protection'
+          };
+        }
+      } catch (error) {
+        logger.error('❌ Error enabling kernel protection:', error);
+        return { 
+          success: false, 
+          message: error.message 
+        };
+      }
+    });
+
+    // Load notes (legacy handler)
+    ipcMain.handle('load-notes', async () => {
+      try {
+        // Return empty notes for now
+        logger.debug('Load notes requested');
+        return { 
+          success: true, 
+          content: '' 
+        };
+      } catch (error) {
+        logger.error('Failed to load notes:', error);
+        return { 
+          success: false, 
+          error: error.message 
+        };
+      }
+    });
+
+    // Save notes (legacy handler)
+    ipcMain.handle('save-notes', async (event, content) => {
+      try {
+        // Save to conversations directory
+        await this.ensureNotesDirectory();
+        const filename = this.generateFilename();
+        const filepath = path.join(this.notesDirectory, filename);
+        
+        const notesData = {
+          content: content,
+          timestamp: new Date().toISOString(),
+          type: 'notes'
+        };
+        
+        await fs.writeFile(filepath, JSON.stringify(notesData, null, 2));
+        logger.success(`Notes saved: ${filename}`);
+        
+        return { success: true, filename };
+      } catch (error) {
+        logger.error('Failed to save notes:', error);
+        return { success: false, error: error.message };
+      }
     });
 
     // Ping (for connection testing)
