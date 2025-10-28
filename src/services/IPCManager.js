@@ -26,66 +26,66 @@ class IPCManager {
   }
 
   /**
-   * Setup note-related IPC handlers
+   * Setup AI conversation-related IPC handlers
    */
   setupNoteHandlers() {
-    // Save note
-    ipcMain.handle('save-note', async (event, noteData) => {
+    // Save conversation
+    ipcMain.handle('save-conversation', async (event, conversationData) => {
       try {
         await this.ensureNotesDirectory();
         const filename = this.generateFilename();
         const filepath = path.join(this.notesDirectory, filename);
         
-        await fs.writeFile(filepath, JSON.stringify(noteData, null, 2));
-        logger.success(`Note saved: ${filename}`);
+        await fs.writeFile(filepath, JSON.stringify(conversationData, null, 2));
+        logger.success(`Conversation saved: ${filename}`);
         
         return { success: true, filename };
       } catch (error) {
-        logger.error('Failed to save note:', error);
+        logger.error('Failed to save conversation:', error);
         return { success: false, error: error.message };
       }
     });
 
-    // Load note
-    ipcMain.handle('load-note', async (event, filename) => {
+    // Load conversation
+    ipcMain.handle('load-conversation', async (event, filename) => {
       try {
         const filepath = path.join(this.notesDirectory, filename);
         const data = await fs.readFile(filepath, 'utf8');
-        const noteData = JSON.parse(data);
+        const conversationData = JSON.parse(data);
         
-        logger.debug(`Note loaded: ${filename}`);
-        return { success: true, data: noteData };
+        logger.debug(`Conversation loaded: ${filename}`);
+        return { success: true, data: conversationData };
       } catch (error) {
-        logger.error('Failed to load note:', error);
+        logger.error('Failed to load conversation:', error);
         return { success: false, error: error.message };
       }
     });
 
-    // List notes
-    ipcMain.handle('list-notes', async () => {
+    // List conversations
+    ipcMain.handle('list-conversations', async () => {
       try {
         await this.ensureNotesDirectory();
         const files = await fs.readdir(this.notesDirectory);
-        const noteFiles = files.filter(file => file.endsWith('.json'));
+        const conversationFiles = files.filter(file => file.endsWith('.json'));
         
-        logger.debug(`Found ${noteFiles.length} notes`);
-        return { success: true, files: noteFiles };
+        logger.debug(`Found ${conversationFiles.length} conversations`);
+        return { success: true, files: conversationFiles };
       } catch (error) {
-        logger.error('Failed to list notes:', error);
+        logger.error('Failed to list conversations:', error);
         return { success: false, error: error.message };
       }
     });
 
-    // Delete note
-    ipcMain.handle('delete-note', async (event, filename) => {
+    // Delete conversation
+    ipcMain.handle('delete-conversation', async (event, filename) => {
       try {
         const filepath = path.join(this.notesDirectory, filename);
         await fs.unlink(filepath);
         
-        logger.success(`Note deleted: ${filename}`);
+        logger.success(`Conversation deleted: ${filename}`);
         return { success: true };
       } catch (error) {
-        logger.error('Failed to delete note:', error);
+        logger.error('Failed to delete conversation:', error);
         return { success: false, error: error.message };
       }
     });

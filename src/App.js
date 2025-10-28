@@ -1,5 +1,5 @@
 /**
- * Main Application Class
+ * Main AI Assistant Application Class
  * Orchestrates all services and manages application lifecycle
  */
 
@@ -11,7 +11,7 @@ const MenuManager = require('./services/MenuManager');
 const IPCManager = require('./services/IPCManager');
 const logger = require('./utils/logger');
 
-class MeetingNotesApp {
+class AIAssistantApp {
   constructor() {
     this.windowManager = new WindowManager();
     this.shortcutManager = new ShortcutManager(this.windowManager);
@@ -58,7 +58,7 @@ class MeetingNotesApp {
    */
   async initialize() {
     try {
-      logger.info('Initializing Meeting Notes App...');
+      logger.info('Initializing AI Assistant App...');
 
       // Check system requirements
       if (!this.checkSystemRequirements()) {
@@ -78,7 +78,7 @@ class MeetingNotesApp {
       this.desktopFollower.startDetection();
       
       this.isReady = true;
-      logger.success('Meeting Notes App initialized successfully');
+      logger.success('AI Assistant App initialized successfully');
 
     } catch (error) {
       logger.error('Failed to initialize application:', error);
@@ -248,4 +248,4 @@ class MeetingNotesApp {
   }
 }
 
-module.exports = MeetingNotesApp;
+module.exports = AIAssistantApp;

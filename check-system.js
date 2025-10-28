@@ -2,12 +2,12 @@
 
 /**
  * System Requirements Checker
- * Verifies that the system meets the requirements for Meeting Notes App
+ * Verifies that the system meets the requirements for AI Assistant App
  */
 
 const os = require('os');
 
-console.log('🔍 Checking system requirements for Meeting Notes App...\n');
+console.log('🔍 Checking system requirements for AI Assistant App...\n');
 
 // Check platform
 const platform = process.platform;

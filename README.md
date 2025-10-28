@@ -1,14 +1,15 @@
-# Meeting Notes App
+# AI Assistant App
 
-A minimalist desktop application for taking meeting notes with always-on-top floating window, designed exclusively for Apple Silicon Macs.
+A minimalist desktop AI assistant with always-on-top floating window, designed exclusively for Apple Silicon Macs.
 
 ## Features
 
+- 🤖 **AI Assistant** - Intelligent AI-powered assistance always at your fingertips
 - 🪟 **Always-on-top floating window** - Stays visible above all other applications
 - 🕵️ **Incognito mode** - Hide from screen sharing with kernel-level protection
 - ⌨️ **Global keyboard shortcuts** - Control the app without clicking
 - 🖥️ **Desktop following** - Automatically follows you across desktops/spaces
-- 📝 **Auto-save notes** - Automatically saves notes to local files
+- 💾 **Auto-save conversations** - Automatically saves AI conversations to local files
 - 🎨 **Minimalist UI** - Clean, pill-shaped interface that doesn't distract
 
 ## Architecture
@@ -60,7 +61,7 @@ public/
 
 ### IPCManager
 - Manages communication between main and renderer processes
-- Handles note saving/loading operations
+- Handles AI conversation saving/loading operations
 - Provides system information and utilities
 
 ## Configuration
@@ -70,6 +71,7 @@ All app settings are centralized in `src/config/appConfig.js`:
 - Window dimensions and behavior
 - Desktop following intervals and thresholds
 - Keyboard shortcuts
+- AI assistant configuration
 - File paths and logging settings
 
 ## System Requirements
@@ -84,11 +86,11 @@ All app settings are centralized in `src/config/appConfig.js`:
 - **npm or yarn**
 
 ### Why Apple Silicon Only?
-This app is optimized specifically for Apple Silicon architecture to provide:
-- Better performance and battery life
-- Native ARM64 optimizations
-- Enhanced security features
-- Improved kernel-level functionality
+This AI assistant is optimized specifically for Apple Silicon architecture to provide:
+- Better performance and battery life for AI processing
+- Native ARM64 optimizations for faster AI responses
+- Enhanced security features for AI conversations
+- Improved kernel-level functionality for seamless operation
 
 ### Installation
 ```bash
@@ -134,7 +136,7 @@ The app automatically detects when you switch desktops/spaces and:
 - Ensures visibility above full-screen applications
 
 ### Window Management
-- Pill-shaped floating interface
+- Pill-shaped floating interface for AI assistant
 - Smooth movement with boundary constraints
 - Manual movement mode with timeout
 - Always-on-top with proper layering

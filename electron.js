@@ -1,15 +1,15 @@
 /**
  * Main Electron Process Entry Point
- * Clean, modular architecture for Meeting Notes App
+ * Clean, modular architecture for AI Assistant App
  */
 
 // Only require and initialize when running in Electron context
 if (typeof require !== 'undefined' && require.main === module) {
-  const MeetingNotesApp = require('./src/App');
+  const AIAssistantApp = require('./src/App');
   const logger = require('./src/utils/logger');
 
   // Create application instance
-  const meetingNotesApp = new MeetingNotesApp();
+  const aiAssistantApp = new AIAssistantApp();
 
   // Handle uncaught exceptions
   process.on('uncaughtException', (error) => {

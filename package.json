@@ -1,7 +1,7 @@
 {
-  "name": "meeting-notes-app",
+  "name": "ai-assistant-app",
   "version": "1.0.0",
-  "description": "A minimalist meeting notes app with always-on-top floating window",
+  "description": "A minimalist AI assistant with always-on-top floating window",
   "main": "electron.js",
   "homepage": "./",
   "private": true,
@@ -20,8 +20,8 @@
     "dist": "npm run check && electron-builder"
   },
   "build": {
-    "appId": "com.meetingnotes.app",
-    "productName": "Meeting Notes",
+    "appId": "com.aiassistant.app",
+    "productName": "AI Assistant",
     "directories": {
       "output": "dist"
     },
@@ -45,7 +45,7 @@
       "minimumSystemVersion": "11.0.0"
     },
     "dmg": {
-      "title": "Meeting Notes",
+      "title": "AI Assistant",
       "icon": "assets/icon.icns",
       "background": "assets/dmg-background.png",
       "window": {

@@ -36,15 +36,15 @@ class MenuManager {
     const template = [
       // macOS specific app menu
       ...(isMac ? [{
-        label: 'Meeting Notes App',
+        label: 'AI Assistant App',
         submenu: [
           {
-            label: 'About Meeting Notes App',
+            label: 'About AI Assistant App',
             role: 'about'
           },
           { type: 'separator' },
           {
-            label: 'Hide Meeting Notes App',
+            label: 'Hide AI Assistant App',
             accelerator: 'Command+H',
             role: 'hide'
           },
@@ -73,17 +73,17 @@ class MenuManager {
         label: 'File',
         submenu: [
           {
-            label: 'New Note',
+            label: 'New Conversation',
             accelerator: 'Command+N',
             click: () => {
-              this.windowManager.mainWindow?.webContents.send('new-note');
+              this.windowManager.mainWindow?.webContents.send('new-conversation');
             }
           },
           {
-            label: 'Save Note',
+            label: 'Save Conversation',
             accelerator: 'Command+S',
             click: () => {
-              this.windowManager.mainWindow?.webContents.send('save-note');
+              this.windowManager.mainWindow?.webContents.send('save-conversation');
             }
           },
           { type: 'separator' },
@@ -234,7 +234,7 @@ class MenuManager {
    * Show about dialog
    */
   showAbout() {
-    logger.info('Meeting Notes App - A minimalist desktop app for taking meeting notes');
+    logger.info('AI Assistant App - A minimalist desktop AI assistant');
   }
 
   /**
