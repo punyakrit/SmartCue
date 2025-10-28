@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Notes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app" class="app">
+        <!-- Pill-shaped container with dark background -->
+        <div class="pill-container">
+            <button id="start-listening-btn" class="start-button">
+                <span id="start-text">Start Listening</span>
+            </button>
+            <div class="separator"></div>
+            <button id="menu-btn" class="menu-button">
+                <div class="grid-icon">⋮</div>
+            </button>
+            <div class="separator"></div>
+            <button id="incognito-btn" class="incognito-button" title="Toggle Incognito Mode (Cmd+B)">
+                <img src="in.png" alt="Incognito" class="incognito-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="incognito-fallback" style="display: none;">🕵️</div>
+            </button>
+            <div class="separator"></div>
+            <button id="hide-btn" class="close-button">×</button>
+        </div>
+    </div>
+
+
+    <script src="app.js"></script>
+</body>
+</html>
+

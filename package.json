@@ -1,0 +1,57 @@
+{
+  "name": "meeting-notes-app",
+  "version": "1.0.0",
+  "description": "A minimalist meeting notes app with always-on-top floating window",
+  "main": "electron.js",
+  "homepage": "./",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0",
+    "concurrently": "^7.6.0",
+    "wait-on": "^7.0.1"
+  },
+  "scripts": {
+    "check": "node check-system.js",
+    "start": "npm run check && electron .",
+    "build": "npm run check && electron-builder",
+    "pack": "npm run check && electron-builder --dir",
+    "dist": "npm run check && electron-builder"
+  },
+  "build": {
+    "appId": "com.meetingnotes.app",
+    "productName": "Meeting Notes",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "public/**/*",
+      "src/**/*",
+      "electron.js",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["arm64"]
+        }
+      ],
+      "icon": "assets/icon.icns",
+      "darkModeSupport": true,
+      "vibrancy": "under-window",
+      "minimumSystemVersion": "11.0.0"
+    },
+    "dmg": {
+      "title": "Meeting Notes",
+      "icon": "assets/icon.icns",
+      "background": "assets/dmg-background.png",
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    }
+  }
+}

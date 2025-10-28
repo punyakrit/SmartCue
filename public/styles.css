@@ -1,0 +1,219 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: transparent !important;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+  background: transparent !important;
+}
+
+/* Pill-shaped container with dark background */
+.pill-container {
+  display: flex;
+  align-items: center;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 25px;
+  padding: 8px 16px;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.start-button {
+  background: #007AFF;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.start-button:hover {
+  background: #0056CC;
+  transform: translateY(-1px);
+}
+
+.start-button.recording {
+  background: #FF3B30;
+  animation: pulse 2s infinite;
+}
+
+.start-button.recording:hover {
+  background: #d70015;
+}
+
+.separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.menu-button, .close-button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-button:hover, .close-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.grid-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.incognito-button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.incognito-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.incognito-button.active {
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid rgba(255, 193, 7, 0.4);
+  color: #ffc107;
+  animation: pulse 2s infinite;
+}
+
+.incognito-button.active:hover {
+  background: rgba(255, 193, 7, 0.3);
+}
+
+.incognito-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: filter 0.2s ease;
+  display: block;
+}
+
+.incognito-button.active .incognito-icon {
+  filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(45deg);
+}
+
+.incognito-fallback {
+  font-size: 16px;
+  line-height: 1;
+  color: white;
+  transition: color 0.2s ease;
+}
+
+.incognito-button.active .incognito-fallback {
+  color: #ffc107;
+}
+
+/* Hidden state */
+.app-hidden {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.show-button {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.show-button:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.15);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.show-button:active {
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .app {
+    padding: 12px;
+  }
+  
+  .pill-container {
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  
+  .start-button {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-width: 100px;
+  }
+}
