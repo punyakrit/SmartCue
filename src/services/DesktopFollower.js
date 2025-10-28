@@ -72,6 +72,11 @@ class DesktopFollower {
     const windowState = this.windowManager.getWindowState();
     if (!windowState) return;
 
+    // Skip if window is not visible (hidden)
+    if (!windowState.isVisible) {
+      return;
+    }
+
     // Skip if in manual movement mode
     if (windowState.isManualMovement) {
       return;
@@ -131,6 +136,12 @@ class DesktopFollower {
    */
   followToCurrentDesktop() {
     if (!this.windowManager.isWindowValid()) return;
+
+    // Check if window is visible before moving
+    const windowState = this.windowManager.getWindowState();
+    if (!windowState || !windowState.isVisible) {
+      return;
+    }
 
     // Check cooldown
     if (this.repositionCooldown) {
@@ -207,7 +218,7 @@ class DesktopFollower {
     if (!this.windowManager.isWindowValid()) return;
 
     const windowState = this.windowManager.getWindowState();
-    if (!windowState || windowState.isFocused) return;
+    if (!windowState || !windowState.isVisible || windowState.isFocused) return;
 
     try {
       this.windowManager.mainWindow.setAlwaysOnTop(true, 'screen-saver');

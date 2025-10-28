@@ -16,8 +16,8 @@ const logger = require('./utils/logger');
 
 class SmartCueApp {
   constructor() {
-    this.windowManager = new WindowManager();
-    this.shortcutManager = new ShortcutManager(this.windowManager);
+    this.shortcutManager = new ShortcutManager();
+    this.windowManager = new WindowManager(this.shortcutManager);
     this.desktopFollower = new DesktopFollower(this.windowManager);
     this.menuManager = new MenuManager(this.windowManager);
     this.ipcManager = new IPCManager(this.windowManager);
@@ -75,7 +75,7 @@ class SmartCueApp {
       this.menuManager.createMenu();
       
       // Register shortcuts
-      this.shortcutManager.registerAllShortcuts();
+      this.shortcutManager.registerAllShortcuts(this.windowManager);
       
       // Start desktop following
       this.desktopFollower.startDetection();

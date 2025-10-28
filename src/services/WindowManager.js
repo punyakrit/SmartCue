@@ -9,12 +9,13 @@ const APP_CONFIG = require('../config/appConfig');
 const logger = require('../utils/logger');
 
 class WindowManager {
-  constructor() {
+  constructor(shortcutManager = null) {
     this.mainWindow = null;
     this.isIncognitoMode = false;
     this.isManualMovement = false;
     this.manualMovementTimeout = null;
     this.lastKnownPosition = { x: 0, y: 50 }; // Will be updated when window is created
+    this.shortcutManager = shortcutManager;
   }
 
   /**
@@ -213,6 +214,11 @@ class WindowManager {
     this.mainWindow.setSkipTaskbar(true);
     this.mainWindow.setOpacity(0);
     this.mainWindow.hide();
+
+    // Disable all shortcuts when hiding
+    if (this.shortcutManager) {
+      this.shortcutManager.disableAllShortcuts();
+    }
   }
 
   /**
@@ -221,14 +227,25 @@ class WindowManager {
   showWindow() {
     if (!this.mainWindow) return;
 
-    this.mainWindow.setContentProtection(false);
-    this.mainWindow.setAlwaysOnTop(true, 'screen-saver');
-    this.mainWindow.setSkipTaskbar(false);
-    this.mainWindow.setOpacity(1.0);
+    // Apply settings based on current incognito state
+    if (this.isIncognitoMode) {
+      this.enableIncognitoMode();
+    } else {
+      this.mainWindow.setContentProtection(false);
+      this.mainWindow.setAlwaysOnTop(true, 'screen-saver');
+      this.mainWindow.setSkipTaskbar(false);
+      this.mainWindow.setOpacity(1.0);
+    }
+
     this.mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
     this.mainWindow.show();
     this.mainWindow.focus();
     this.mainWindow.moveTop();
+
+    // Re-enable all shortcuts when showing
+    if (this.shortcutManager) {
+      this.shortcutManager.enableAllShortcuts();
+    }
   }
 
   /**
